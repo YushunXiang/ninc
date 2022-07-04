@@ -1,5 +1,4 @@
 use anyhow::{bail, Result};
-use reqwest::Client;
 use crate::{
   data::{
     Config,
@@ -7,7 +6,7 @@ use crate::{
     Storage,
     BasicConfig
   },
-  tools
+  tools::{self, auth::home}
 };
 
 pub async fn login(
@@ -17,9 +16,7 @@ pub async fn login(
   password: &str,
   save: bool
 ) -> Result<()> {
-  let client = Client::new();
-
-  if let Err(err) = tools::login_with_client(storage, username, password, &client).await {
+  if let Err(err) = tools::login(storage, username, password).await {
     bail!("Sign in failed!\n{}", err);
   }
 
@@ -33,7 +30,7 @@ pub async fn login(
     }
   }
 
-  if let Err(err) = tools::auth(storage).await {
+  if let Err(err) = home::auth(storage).await {
     bail!("Auth failed!\n{}", err);
   }
 

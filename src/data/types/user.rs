@@ -1,7 +1,10 @@
 pub struct User {
+  /// 身份
+  pub identity: String,
+
   /// 学号
-  pub username: String,
+  pub uid: String,
 
   /// 姓名
-  pub name: String
+  pub name: String,
 }

@@ -1,4 +1,5 @@
 mod login;
+mod esrep;
 
 use clap::{Parser, Subcommand};
 
@@ -15,4 +16,8 @@ pub enum Commands {
   /// Sign in to your account
   #[clap(arg_required_else_help = true)]
   Login(login::LoginArg),
+
+  /// Epidemic situation report
+  #[clap(arg_required_else_help = true)]
+  Esrep(esrep::EsrepArg),
 }

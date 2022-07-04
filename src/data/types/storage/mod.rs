@@ -1,15 +1,13 @@
+mod login;
+
+use login::*;
+
 use anyhow::Result;
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize)]
-pub struct LoginStorage {
-  pub cookie_tgc: Option<String>,
-  pub cookie_jwt: Option<String>,
-}
-
-#[derive(Serialize, Deserialize)]
 pub struct Storage {
-  pub login: LoginStorage,
+  pub login: LoginStorage
 }
 
 impl Storage {

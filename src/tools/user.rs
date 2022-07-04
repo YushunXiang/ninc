@@ -42,7 +42,8 @@ pub async fn get_user(storage: &Storage) -> Result<User> {
     let resp = client.get(USER_URL).header("x-id-token", jwt).send().await?;
     let data: Resp = resp.json().await?;
     Ok(User {
-      username: data.data.username,
+      identity: data.data.attributes.identityTypeName,
+      uid: data.data.username,
       name: data.data.attributes.userName
     })
   } else {

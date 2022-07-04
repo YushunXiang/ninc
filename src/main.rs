@@ -11,7 +11,7 @@ use data::{
   args::{Cli, Commands}
 };
 use tools::get_user;
-use commands::login;
+use commands::{login, esrep};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -19,16 +19,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   let mut config = match Config::load(CONFIG_FILE).await {
     Ok(config) => { config },
-    Err(err) => {
-      eprintln!("Failed to load config file, the default value will be used.\n{}", err);
+    Err(_) => {
+      eprintln!("Failed to load config file, the default value will be used.");
       Config::new()
     }
   };
 
   let mut storage = match Storage::load(STORAGE_FILE).await {
     Ok(storage) => { storage },
-    Err(err) => {
-      eprintln!("Failed to load storage file, the default value will be used.\n{}", err);
+    Err(_) => {
+      eprintln!("Failed to load storage file, the default value will be used.");
       Storage::new()
     }
   };
@@ -40,7 +40,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       } else {
         println!("Sign in successfully!");
         let userinfo = get_user(&storage).await?;
-        println!("Welcome, {} {}!", userinfo.username, userinfo.name);
+        println!("Welcome, {} {}({})!", userinfo.identity, userinfo.name, userinfo.uid);
+      }
+    },
+    Commands::Esrep(_args) => {
+      if let Err(err) = esrep(&storage).await {
+        eprintln!("Get info failed!\n{}", err);
       }
     }
   }

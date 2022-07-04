@@ -1,36 +1,39 @@
+mod data;
 mod commands;
 
-use clap::{Parser, Subcommand};
+use clap::Parser;
+use data::{
+  Config,
+  Storage,
+  CONFIG_FILE,
+  STORAGE_FILE,
+  args::{Cli, Commands}
+};
 use commands::login;
-
-#[derive(Parser)]
-#[clap(name = "ninc")]
-#[clap(about = "A command line interface for NWPU ecampus", long_about = None)]
-struct Cli {
-  #[clap(subcommand)]
-  command: Commands,
-}
-
-#[derive(Subcommand)]
-enum Commands {
-  /// Sign in to your account
-  #[clap(arg_required_else_help = true)]
-  Login {
-    #[clap(short)]
-    username: String,
-    
-    #[clap(short)]
-    password: String,
-  }
-}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
   let args = Cli::parse();
 
+  let mut config = match Config::load(CONFIG_FILE).await {
+    Ok(config) => { config },
+    Err(err) => {
+      eprintln!("Failed to load config file!\n{}", err);
+      Config::new()
+    }
+  };
+
+  let mut storage = match Storage::load(STORAGE_FILE).await {
+    Ok(storage) => { storage },
+    Err(err) => {
+      eprintln!("Failed to load storage file!\n{}", err);
+      Storage::new()
+    }
+  };
+
   match args.command {
-    Commands::Login { username, password } => {
-      if let Err(err) = login(&username, &password).await {
+    Commands::Login(args) => {
+      if let Err(err) = login(&mut config, &mut storage, &args.username, &args.password, args.save).await {
         eprintln!("{}", err)
       }
     }

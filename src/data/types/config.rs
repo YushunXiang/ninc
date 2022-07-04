@@ -9,7 +9,7 @@ pub struct BasicConfig {
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
-  pub basic: BasicConfig,
+  pub basic: Option<BasicConfig>,
 }
 
 impl Config {
@@ -24,11 +24,6 @@ impl Config {
     Ok(())
   }
   pub fn new() -> Self {
-    Config {
-      basic: BasicConfig {
-        username: String::new(),
-        password: String::new(),
-      }
-    }
+    Config { basic: None }
   }
 }

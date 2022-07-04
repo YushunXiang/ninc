@@ -3,7 +3,8 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct LoginStorage {
-  pub cookie_tgc: String,
+  pub cookie_tgc: Option<String>,
+  pub cookie_jwt: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -25,7 +26,8 @@ impl Storage {
   pub fn new() -> Self {
     Storage {
       login: LoginStorage {
-        cookie_tgc: String::new()
+        cookie_tgc: None,
+        cookie_jwt: None
       }
     }
   }

@@ -1,9 +1,8 @@
 mod login;
 
-use login::*;
-
 use anyhow::Result;
 use serde::{Serialize, Deserialize};
+use login::*;
 
 #[derive(Serialize, Deserialize)]
 pub struct Storage {

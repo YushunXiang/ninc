@@ -1,5 +1,8 @@
+mod esrep;
+
 use anyhow::Result;
 use serde::{Serialize, Deserialize};
+pub use esrep::*;
 
 #[derive(Serialize, Deserialize)]
 pub struct BasicConfig {
@@ -10,6 +13,7 @@ pub struct BasicConfig {
 #[derive(Serialize, Deserialize)]
 pub struct Config {
   pub basic: Option<BasicConfig>,
+  pub esrep: EsrepConfig,
 }
 
 impl Config {
@@ -24,6 +28,11 @@ impl Config {
     Ok(())
   }
   pub fn new() -> Self {
-    Config { basic: None }
+    Config {
+      basic: None,
+      esrep: EsrepConfig {
+        report: None
+      },
+    }
   }
 }

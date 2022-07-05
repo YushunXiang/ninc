@@ -36,16 +36,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
   match args.command {
     Commands::Login(args) => {
       if let Err(err) = login(&mut config, &mut storage, &args.username, &args.password, args.save).await {
-        eprintln!("{}", err);
+        eprintln!("Sign in failed!\n{}", err);
       } else {
         println!("Sign in successfully!");
         let userinfo = get_user(&storage).await?;
         println!("Welcome, {} {}({})!", userinfo.identity, userinfo.name, userinfo.uid);
       }
     },
-    Commands::Esrep(_args) => {
-      if let Err(err) = esrep(&storage).await {
-        eprintln!("Get info failed!\n{}", err);
+    Commands::Esrep(args) => {
+      if let Err(err) = esrep(&mut config, &storage, args.yes).await {
+        eprintln!("Report failed!\n{}", err);
+      } else {
+        println!("Report successfully!");
       }
     }
   }

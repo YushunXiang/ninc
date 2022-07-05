@@ -12,13 +12,13 @@ pub async fn auth(storage: &Storage) -> Result<String> {
 
   let client = ClientBuilder::new().redirect(Policy::none()).build()?;
 
-  // first request: get JSESSIONID
+  // 1st request: get JSESSIONID
   let resp = client.get(ESREP_LOGIN_URL).send().await?;
 
   let jsessionid_raw = resp.headers().get("set-cookie").unwrap().to_str()?;
   let jsessionid = &jsessionid_raw.split(';').next().unwrap()[11..];
 
-  // second request: get ticket (auth)
+  // 2nd request: get ticket (for auth)
   let resp = client.get(AUTH_URL)
     .query(&[("service", SERVICE_ESREP)])
     .header("cookie", format!("TGC={}", tgc))
@@ -28,7 +28,7 @@ pub async fn auth(storage: &Storage) -> Result<String> {
   let ticket_raw = resp.headers().get("location").unwrap().to_str()?;
   let ticket = re.captures(ticket_raw).unwrap().get(1).unwrap().as_str();
 
-  // third request: sign in with ticket & JSESSIONID
+  // 3rd request: sign in with ticket & JSESSIONID
   client.get(ESREP_LOGIN_URL)
     .query(&[("ticket", ticket)])
     .header("Cookie", format!("JSESSIONID={}", jsessionid))

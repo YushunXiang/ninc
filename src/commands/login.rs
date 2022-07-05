@@ -17,7 +17,7 @@ pub async fn login(
   save: bool
 ) -> Result<()> {
   if let Err(err) = tools::login(storage, username, password).await {
-    bail!("Sign in failed!\n{}", err);
+    bail!("{}", err);
   }
 
   if save {
@@ -31,7 +31,7 @@ pub async fn login(
   }
 
   if let Err(err) = home::auth(storage).await {
-    bail!("Auth failed!\n{}", err);
+    bail!("Auth failed: {}", err);
   }
 
   Ok(())

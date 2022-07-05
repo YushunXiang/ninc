@@ -18,6 +18,5 @@ pub enum Commands {
   Login(login::LoginArg),
 
   /// Epidemic situation report
-  #[clap(arg_required_else_help = true)]
   Esrep(esrep::EsrepArg),
 }

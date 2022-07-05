@@ -9,7 +9,9 @@ pub const SERVICE_ESREP: &str = "https://yqtb.nwpu.edu.cn//sso/login.jsp?targetU
 
 pub const USER_URL: &str = "https://personal-security-center.nwpu.edu.cn/api/v1/personal/me/user";
 
-pub const ESREP_URL: &str = "https://yqtb.nwpu.edu.cn/wx/xg/yz-mobile/index.jsp";
+pub const _ESREP_HOME_URL: &str = "https://yqtb.nwpu.edu.cn/wx/xg/yz-mobile/index.jsp";
 pub const ESREP_LOGIN_URL: &str = "https://yqtb.nwpu.edu.cn/sso/login.jsp";
+pub const ESREP_URL: &str = "https://yqtb.nwpu.edu.cn/wx/ry/jrsb_xs.jsp";
+pub const ESREP_POST_URL: &str = "https://yqtb.nwpu.edu.cn/wx/ry/ry_util.jsp";
 
 pub const _PUBKEY_URL: &str = "https://uis.nwpu.edu.cn/cas/jwt/publicKey";

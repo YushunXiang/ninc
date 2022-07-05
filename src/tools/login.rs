@@ -1,7 +1,23 @@
 use anyhow::{Result, bail};
 use regex::Regex;
 use reqwest::Client;
-use crate::data::{AUTH_URL, Storage, STORAGE_FILE};
+use crate::data::{AUTH_URL, Storage, STORAGE_FILE, Config};
+
+pub fn get_info<'a>(
+  config: &Config,
+  username: Option<String>,
+  password: Option<String>
+) -> Option<(String, String)> {
+  if username.is_none() && config.basic.username.is_none() {
+    None
+  } else if password.is_none() && config.basic.password.is_none() {
+    None
+  } else {
+    let u = username.unwrap_or_else(|| config.basic.username.as_ref().unwrap().clone());
+    let p = password.unwrap_or_else(|| config.basic.password.as_ref().unwrap().clone());
+    Some((u, p))
+  }
+}
 
 pub async fn login(
   storage: &mut Storage,

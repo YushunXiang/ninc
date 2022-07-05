@@ -1,18 +1,14 @@
+mod basic;
 mod esrep;
 
 use anyhow::Result;
 use serde::{Serialize, Deserialize};
+pub use basic::*;
 pub use esrep::*;
 
 #[derive(Serialize, Deserialize)]
-pub struct BasicConfig {
-  pub username: String,
-  pub password: String,
-}
-
-#[derive(Serialize, Deserialize)]
 pub struct Config {
-  pub basic: Option<BasicConfig>,
+  pub basic: BasicConfig,
   pub esrep: EsrepConfig,
 }
 
@@ -29,7 +25,10 @@ impl Config {
   }
   pub fn new() -> Self {
     Config {
-      basic: None,
+      basic: BasicConfig {
+        username: None,
+        password: None
+      },
       esrep: EsrepConfig {
         report: None
       },

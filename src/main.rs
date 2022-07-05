@@ -10,7 +10,7 @@ use data::{
   STORAGE_FILE,
   args::{Cli, Commands}
 };
-use tools::get_user;
+use tools::{get_user, get_info};
 use commands::{login, esrep};
 
 #[tokio::main]
@@ -35,12 +35,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
   match args.command {
     Commands::Login(args) => {
-      if let Err(err) = login(&mut config, &mut storage, &args.username, &args.password, args.save).await {
-        eprintln!("Sign in failed!\n{}", err);
+      let info = get_info(&config, args.username, args.password);
+      if let Some(info) = info {
+        if let Err(err) = login(&mut config, &mut storage, &info.0, &info.1, args.save).await {
+          eprintln!("Sign in failed!\n{}", err);
+        } else {
+          println!("Sign in successfully!");
+          let userinfo = get_user(&storage).await?;
+          println!("Welcome, {} {}({})!", userinfo.identity, userinfo.name, userinfo.uid);
+        }
       } else {
-        println!("Sign in successfully!");
-        let userinfo = get_user(&storage).await?;
-        println!("Welcome, {} {}({})!", userinfo.identity, userinfo.name, userinfo.uid);
+        eprintln!("Username and password are required.");
       }
     },
     Commands::Esrep(args) => {

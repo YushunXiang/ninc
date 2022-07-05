@@ -3,8 +3,7 @@ use crate::{
   data::{
     Config,
     CONFIG_FILE,
-    Storage,
-    BasicConfig
+    Storage
   },
   tools::{self, auth::home}
 };
@@ -21,10 +20,8 @@ pub async fn login(
   }
 
   if save {
-    config.basic = Some(BasicConfig {
-      username: String::from(username),
-      password: String::from(password)
-    });
+    config.basic.username = Some(String::from(username));
+    config.basic.password = Some(String::from(password));
     if let Err(err) = config.save(CONFIG_FILE).await {
       eprintln!("Failed to save config file!\n{}", err);
     }

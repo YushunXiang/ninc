@@ -1,5 +1,4 @@
 use std::io::Write;
-
 use anyhow::{bail, Result};
 use serde::Serialize;
 use serde_json::Value;

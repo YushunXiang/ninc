@@ -8,8 +8,8 @@ pub use esrep::*;
 
 #[derive(Serialize, Deserialize)]
 pub struct Config {
-  pub basic: BasicConfig,
-  pub esrep: EsrepConfig,
+  pub basic: Option<BasicConfig>,
+  pub esrep: Option<EsrepConfig>,
 }
 
 impl Config {
@@ -25,13 +25,8 @@ impl Config {
   }
   pub fn new() -> Self {
     Config {
-      basic: BasicConfig {
-        username: None,
-        password: None
-      },
-      esrep: EsrepConfig {
-        report: None
-      },
+      basic: None,
+      esrep: None
     }
   }
 }

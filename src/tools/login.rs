@@ -3,18 +3,28 @@ use regex::Regex;
 use reqwest::Client;
 use crate::data::{AUTH_URL, Storage, STORAGE_FILE, Config};
 
-pub fn get_info<'a>(
+pub fn get_info(
   config: &Config,
   username: Option<String>,
   password: Option<String>
 ) -> Option<(String, String)> {
-  if username.is_none() && config.basic.username.is_none() {
+  let no_username = if let Some(basic) = &config.basic {
+    basic.username.is_none()
+  } else {
+    true
+  };
+  let no_password = if let Some(basic) = &config.basic {
+    basic.password.is_none()
+  } else {
+    true
+  };
+  if username.is_none() && no_username {
     None
-  } else if password.is_none() && config.basic.password.is_none() {
+  } else if password.is_none() && no_password {
     None
   } else {
-    let u = username.unwrap_or_else(|| config.basic.username.as_ref().unwrap().clone());
-    let p = password.unwrap_or_else(|| config.basic.password.as_ref().unwrap().clone());
+    let u = username.unwrap_or_else(|| config.basic.as_ref().unwrap().username.as_ref().unwrap().clone());
+    let p = password.unwrap_or_else(|| config.basic.as_ref().unwrap().password.as_ref().unwrap().clone());
     Some((u, p))
   }
 }

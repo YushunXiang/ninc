@@ -11,7 +11,7 @@ use crate::{
     ESREP_URL,
     ESREP_POST_URL,
     EsrepReport,
-    CONFIG_FILE
+    CONFIG_FILE, EsrepConfig
   },
   tools::auth::esrep
 };
@@ -49,13 +49,13 @@ async fn fetch_params(jsessionid: &str, client: &Client) -> Result<Res> {
   })
 }
 
-async fn report_with_client(
+async fn report(
   content: &EsrepReport,
   is_yes: bool,
   jsessionid: &str,
-  client: &Client
 ) -> Result<()> {
-  let res = fetch_params(jsessionid, client).await?;
+  let client = Client::new();
+  let res = fetch_params(jsessionid, &client).await?;
 
   if res.already && !is_yes {
     loop {
@@ -116,14 +116,21 @@ pub async fn esrep(
   storage: &Storage,
   is_yes: bool
 ) -> Result<()> {
-  if let Some(content) = &config.esrep.report {
-    let jsessionid = esrep::auth(&storage).await?;
-    let client = Client::new();
-    report_with_client(content, is_yes, &jsessionid, &client).await?;
-    Ok(())
-  } else {
-    config.esrep.report = Some(EsrepReport::new());
+  if config.esrep.is_none() {
+    config.esrep = Some(EsrepConfig {
+      report: Some(EsrepReport::new())
+    });
     config.save(CONFIG_FILE).await?;
     bail!("Please set the report content in config file first!");
   }
+  let esrep = config.esrep.as_mut().unwrap();
+  if esrep.report.is_none() {
+    esrep.report = Some(EsrepReport::new());
+    config.save(CONFIG_FILE).await?;
+    bail!("Please set the report content in config file first!");
+  }
+  let content = esrep.report.as_ref().unwrap();
+  let jsessionid = esrep::auth(&storage).await?;
+  report(&content, is_yes, &jsessionid).await?;
+  Ok(())
 }

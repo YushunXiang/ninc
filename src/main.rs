@@ -41,7 +41,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
           eprintln!("Sign in failed!\n{}", err);
         } else {
           println!("Sign in successfully!");
-          let userinfo = get_user(&storage).await?;
+          let userinfo = get_user(&mut storage).await?;
           println!("Welcome, {} {}({})!", userinfo.identity, userinfo.name, userinfo.uid);
         }
       } else {

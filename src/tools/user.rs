@@ -3,7 +3,7 @@
 use anyhow::{Result, bail};
 use serde::Deserialize;
 use reqwest::Client;
-use crate::data::{User, Storage, USER_URL};
+use crate::data::{User, Storage, USER_URL, STORAGE_FILE};
 
 #[derive(Deserialize)]
 struct RespAttr {
@@ -35,16 +35,21 @@ struct Resp {
   message: Option<String>,
 }
 
-pub async fn get_user(storage: &Storage) -> Result<User> {
+pub async fn get_user(storage: &mut Storage) -> Result<User> {
   let client = Client::new();
 
   if let Some(jwt) = &storage.login.cookie_jwt {
     let resp = client.get(USER_URL).header("x-id-token", jwt).send().await?;
     let data: Resp = resp.json().await?;
+    let uid = data.data.username;
+    let name = data.data.attributes.userName;
+    storage.basic.uid = Some(uid.clone());
+    storage.basic.name = Some(name.clone());
+    storage.save(STORAGE_FILE).await?;
     Ok(User {
       identity: data.data.attributes.identityTypeName,
-      uid: data.data.username,
-      name: data.data.attributes.userName
+      uid,
+      name,
     })
   } else {
     bail!("Please sign in first!");

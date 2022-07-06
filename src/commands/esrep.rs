@@ -116,16 +116,19 @@ pub async fn esrep(
   storage: &Storage,
   is_yes: bool
 ) -> Result<()> {
+  if storage.login.cookie_tgc.is_none() {
+    bail!("Please sign in first!");
+  }
   if config.esrep.is_none() {
     config.esrep = Some(EsrepConfig {
-      report: Some(EsrepReport::new())
+      report: Some(EsrepReport::new(storage))
     });
     config.save(CONFIG_FILE).await?;
     bail!("Please set the report content in config file first!");
   }
   let esrep = config.esrep.as_mut().unwrap();
   if esrep.report.is_none() {
-    esrep.report = Some(EsrepReport::new());
+    esrep.report = Some(EsrepReport::new(storage));
     config.save(CONFIG_FILE).await?;
     bail!("Please set the report content in config file first!");
   }

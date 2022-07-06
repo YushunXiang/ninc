@@ -1,12 +1,15 @@
+mod basic;
 mod login;
 
 use anyhow::Result;
 use serde::{Serialize, Deserialize};
+use basic::*;
 use login::*;
 
 #[derive(Serialize, Deserialize)]
 pub struct Storage {
-  pub login: LoginStorage
+  pub basic: BasicStorage,
+  pub login: LoginStorage,
 }
 
 impl Storage {
@@ -22,10 +25,14 @@ impl Storage {
   }
   pub fn new() -> Self {
     Storage {
+      basic: BasicStorage {
+        uid: None,
+        name: None,
+      },
       login: LoginStorage {
         cookie_tgc: None,
-        cookie_jwt: None
-      }
+        cookie_jwt: None,
+      },
     }
   }
 }

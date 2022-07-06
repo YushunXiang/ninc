@@ -1,4 +1,5 @@
 use serde::{Serialize, Deserialize};
+use crate::data::Storage;
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize)]
@@ -60,12 +61,24 @@ pub struct EsrepConfig {
 }
 
 impl EsrepReport {
-  pub fn new() -> Self {
+  pub fn new(storage: &Storage) -> Self {
+    let uid = if let Some(uid) = storage.basic.uid.as_ref() {
+      uid.clone()
+    } else {
+      String::from("1145141919")
+    };
+
+    let name = if let Some(name) = storage.basic.name.as_ref() {
+      name.clone()
+    } else {
+      String::from("田所")
+    };
+
     EsrepReport {
       hsjc: Some(1),
       xasymt: Some(1),
       actionType: Some(String::from("addRbxx")),
-      userLoginId: Some(String::from("1145141919")),
+      userLoginId: Some(uid),
       szcsbm: Some(1),
       bdzt: Some(1),
       szcsmc: Some(String::from("在学校")),
@@ -75,7 +88,7 @@ impl EsrepReport {
       qtqksm: Some(String::from("无")),
       ycqksm: Some(String::new()),
       userType: Some(2),
-      userName: Some(String::from("田所")),
+      userName: Some(name),
     }
   }
 }

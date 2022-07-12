@@ -14,4 +14,7 @@ pub const ESREP_LOGIN_URL: &str = "https://yqtb.nwpu.edu.cn/sso/login.jsp";
 pub const ESREP_URL: &str = "https://yqtb.nwpu.edu.cn/wx/ry/jrsb_xs.jsp";
 pub const ESREP_POST_URL: &str = "https://yqtb.nwpu.edu.cn/wx/ry/ry_util.jsp";
 
+pub const ECARD_URL: &str = "https://portal-service.nwpu.edu.cn/v2/personalData/getMyECard";
+pub const ECARD_DETAIL_URL: &str = "https://portal-service.nwpu.edu.cn/portalCenter/api/rest/center/personalData/getMyCost";
+
 pub const _PUBKEY_URL: &str = "https://uis.nwpu.edu.cn/cas/jwt/publicKey";

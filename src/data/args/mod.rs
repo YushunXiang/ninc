@@ -1,5 +1,6 @@
 mod login;
 mod esrep;
+mod ecard;
 
 use clap::{Parser, Subcommand};
 
@@ -18,4 +19,7 @@ pub enum Commands {
 
   /// Epidemic situation report
   Esrep(esrep::EsrepArg),
+
+  /// Query consumption records
+  Ecard(ecard::EcardArg),
 }

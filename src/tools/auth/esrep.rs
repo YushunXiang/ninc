@@ -25,7 +25,11 @@ pub async fn auth(storage: &Storage) -> Result<String> {
     .send().await?;
 
   let re = Regex::new("ticket=(.+)")?;
-  let ticket_raw = resp.headers().get("location").unwrap().to_str()?;
+  let ticket_raw = if let Some(raw) = resp.headers().get("location") {
+    raw.to_str()?
+  } else {
+    bail!("Token is invalid, please sign in again!");
+  };
   let ticket = re.captures(ticket_raw).unwrap().get(1).unwrap().as_str();
 
   // 3rd request: sign in with ticket & JSESSIONID

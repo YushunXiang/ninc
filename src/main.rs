@@ -56,7 +56,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       }
     },
     Commands::Ecard(args) => {
-      if let Err(err) = ecard(&config, &storage, args.detail).await {
+      if let Err(err) = ecard(&config, &storage, args).await {
         eprintln!("Query failed!\n{}", err);
       }
     }

@@ -3,6 +3,7 @@ mod esrep;
 mod ecard;
 
 use clap::{Parser, Subcommand};
+pub use ecard::EcardArg;
 
 #[derive(Parser)]
 #[clap(name = "ninc", author = "yurzhang")]
@@ -21,5 +22,5 @@ pub enum Commands {
   Esrep(esrep::EsrepArg),
 
   /// Query consumption records
-  Ecard(ecard::EcardArg),
+  Ecard(EcardArg),
 }

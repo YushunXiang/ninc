@@ -44,7 +44,7 @@ pub async fn ecard_short(jwt: &str, client: &Client) -> Result<()> {
     println!("{} CNY has been expended this month.", data.monthBalance);
     println!("\nRecent expenditure:");
     for item in data.lastExpenditure {
-      println!("{:3} {:7} {}", item.payWay, item.amount, item.time);
+      println!("{:3} {:11} at {}", item.payWay, item.amount + " CNY", item.time);
     }
     Ok(())
   } else {

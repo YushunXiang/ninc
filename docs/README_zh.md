@@ -35,7 +35,7 @@ ninc ecard
 展示余额、月消费和最近消费记录。
 
 ```bash
-ninc -d [--begin [日期]] [--end [日期]] [--limit [最大展示数量]]
+ninc ecard -d [--begin [日期]] [--end [日期]] [--limit [最大展示数量]]
 ```
 
 展示指定日期范围内的消费记录。

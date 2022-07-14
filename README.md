@@ -35,7 +35,7 @@ ninc ecard
 Show balance, monthly consumption and recent consumption records.
 
 ```bash
-ninc -d [--begin [date]] [--end [date]] [--limit [max_display_count]]
+ninc ecard -d [--begin [date]] [--end [date]] [--limit [max_display_count]]
 ```
 
 Show consumption records in the specified date range.

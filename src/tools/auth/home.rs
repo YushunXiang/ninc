@@ -2,7 +2,7 @@ use anyhow::{bail, Result};
 use serde::Deserialize;
 use regex::Regex;
 use reqwest::{ClientBuilder, redirect::Policy};
-use crate::data::{Storage, STORAGE_FILE, AUTH_URL, SERVICE_HOME};
+use crate::data::{Storage, STORAGE_FILE, AUTH_URL, SERVICE_HOME, USER_AGENT};
 
 #[allow(non_snake_case, dead_code)]
 #[derive(Deserialize)]
@@ -24,6 +24,7 @@ pub async fn auth(storage: &mut Storage) -> Result<()> {
   if let Some(tgc) = &storage.login.cookie_tgc {
     let resp = client.get(AUTH_URL)
       .query(&[("service", SERVICE_HOME)])
+      .header("user-agent", USER_AGENT)
       .header("cookie", format!("TGC={}", tgc))
       .send().await?;
     if resp.status() == 302 {

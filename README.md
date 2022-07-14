@@ -26,6 +26,22 @@ The content to be reported will be read from the config file. If option `esrep.r
 
 If it has been reported today, you will be asked whether to repeat it. After specifying the option `-y`, the query will be skipped and the filling will be repeated directly.
 
+### Campus card
+
+```bash
+ninc ecard
+```
+
+Show balance, monthly consumption and recent consumption records.
+
+```bash
+ninc -d [--begin [date]] [--end [date]] [--limit [max_display_count]]
+```
+
+Show consumption records in the specified date range.
+
+Date format is `YYYY-MM-DD`. If not specified `--limit`, it will be 10, if not specified `--end`, it will be today, if not specified `--begin`, it will be 30 days ago.
+
 ### Help
 
 ```bash

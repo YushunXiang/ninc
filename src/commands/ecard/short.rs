@@ -26,7 +26,7 @@ struct EcardShort {
   eCardType: String,
   lastCas: EcardLastCas,
   lastExpenditure: Vec<EcardExpenditure>,
-  lastIncome: Vec<i32>,
+  lastIncome: Vec<EcardExpenditure>,
   monthBalance: String,
   openDate: String,
   pcUrl: String,
@@ -42,9 +42,17 @@ pub async fn ecard_short(jwt: &str, client: &Client) -> Result<()> {
     println!("Status:  {}", data.cardStatus);
     println!("Balance: {} CNY", data.balance);
     println!("{} CNY has been expended this month.", data.monthBalance);
-    println!("\nRecent expenditure:");
-    for item in data.lastExpenditure {
-      println!("{:3} {:11} at {}", item.payWay, item.amount + " CNY", item.time);
+    if data.lastIncome.len() > 0 {
+      println!("\nRecent income:");
+      for item in data.lastIncome {
+        println!("{:4} {:11} at {}", item.payWay, item.amount + " CNY", item.time);
+      }
+    }
+    if data.lastExpenditure.len() > 0 {
+      println!("\nRecent expenditure:");
+      for item in data.lastExpenditure {
+        println!("{:4} {:11} at {}", item.payWay, item.amount + " CNY", item.time);
+      }
     }
     Ok(())
   } else {

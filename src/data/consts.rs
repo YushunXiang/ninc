@@ -1,7 +1,7 @@
 pub const CONFIG_FILE: &str = "config.toml";
 pub const STORAGE_FILE: &str = "storage.json";
 
-pub const _USER_AGENT: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.136 Safari/537.36";
+pub const USER_AGENT: &str = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.149 Safari/537.36";
 
 pub const AUTH_URL: &str = "https://uis.nwpu.edu.cn/cas/login";
 pub const SERVICE_HOME: &str = "https://ecampus.nwpu.edu.cn/?path=https://ecampus.nwpu.edu.cn/main.html#/Tourist";

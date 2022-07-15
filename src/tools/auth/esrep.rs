@@ -1,7 +1,7 @@
 use anyhow::{bail, Result};
 use regex::Regex;
 use reqwest::{ClientBuilder, redirect::Policy};
-use crate::data::{Storage, ESREP_LOGIN_URL, AUTH_URL, SERVICE_ESREP};
+use crate::data::{Storage, ESREP_LOGIN_URL, AUTH_URL, SERVICE_ESREP, USER_AGENT};
 
 pub async fn auth(storage: &Storage) -> Result<String> {
   let tgc = if let Some(tgc) = &storage.login.cookie_tgc {
@@ -21,6 +21,7 @@ pub async fn auth(storage: &Storage) -> Result<String> {
   // 2nd request: get ticket (for auth)
   let resp = client.get(AUTH_URL)
     .query(&[("service", SERVICE_ESREP)])
+    .header("user-agent", USER_AGENT)
     .header("cookie", format!("TGC={}", tgc))
     .send().await?;
 

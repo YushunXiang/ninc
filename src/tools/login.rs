@@ -1,7 +1,7 @@
 use anyhow::{Result, bail};
 use regex::Regex;
 use reqwest::Client;
-use crate::data::{AUTH_URL, Storage, STORAGE_FILE, Config};
+use crate::data::{AUTH_URL, Storage, STORAGE_FILE, Config, USER_AGENT};
 
 pub fn get_info(
   config: &Config,
@@ -37,7 +37,11 @@ pub async fn login(
   let client = Client::new();
 
   let re = Regex::new("<input type=\"hidden\" name=\"execution\" value=\"(.+?)\"/>").unwrap();
-  let execution_raw = client.get(AUTH_URL).send().await?.text().await?;
+  let execution_raw = client.get(AUTH_URL)
+    .header("user-agent", USER_AGENT)
+    .send().await?
+    .text().await?;
+
   let execution = re.captures(&execution_raw).unwrap().get(1).unwrap().as_str();
 
   let login_resp = client.post(AUTH_URL)

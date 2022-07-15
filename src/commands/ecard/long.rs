@@ -84,7 +84,7 @@ pub async fn ecard_long(
   println!("To:   {}\n", end);
 
   for item in list {
-    let title = item.operationTitle.unwrap_or("-".to_string());
+    let title = item.operationTitle.unwrap_or_default();
     println!("{} {}\n  {:11} at {}\n", item.operationType, title, item.payment + " CNY", item.occurrenceTime);
   }
   println!("{} record{} in total.", total_num, if total_num > 1 { "s" } else { "" });

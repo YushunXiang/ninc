@@ -1,9 +1,9 @@
 mod login;
 mod esrep;
-mod ecard;
+pub mod ecard;
+pub mod edu;
 
 use clap::{Parser, Subcommand};
-pub use ecard::EcardArg;
 
 #[derive(Parser)]
 #[clap(name = "ninc", author = "yurzhang")]
@@ -22,5 +22,8 @@ pub enum Commands {
   Esrep(esrep::EsrepArg),
 
   /// Query consumption records
-  Ecard(EcardArg),
+  Ecard(ecard::EcardArg),
+
+  /// Academic adminstration related functions
+  Edu(edu::EduArg),
 }

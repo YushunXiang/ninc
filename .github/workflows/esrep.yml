@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Report
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,7 +25,7 @@ jobs:
         env:
           RUST_BACKTRACE: 1
 
-      - name: Login
+      - name: Sign in
         run: ./target/release/ninc login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
 
       - name: Pre-report

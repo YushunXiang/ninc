@@ -1,7 +1,7 @@
 mod login;
-mod esrep;
+pub mod esrep;
 pub mod ecard;
-pub mod edu;
+// pub mod edu;
 
 use clap::{Parser, Subcommand};
 
@@ -24,6 +24,6 @@ pub enum Commands {
   /// Query consumption records
   Ecard(ecard::EcardArg),
 
-  /// Academic adminstration related functions
-  Edu(edu::EduArg),
+  // /// Academic adminstration related functions
+  // Edu(edu::EduArg),
 }

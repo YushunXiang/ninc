@@ -10,8 +10,11 @@ use crate::{
     Config,
     ESREP_URL,
     ESREP_POST_URL,
-    EsrepReport,
-    CONFIG_FILE, EsrepConfig
+    CONFIG_FILE,
+    EsrepConfig::{School, Other, self},
+    args::esrep::EsrepArg,
+    ReportAtSchool,
+    ReportOther,
   },
   tools::auth::esrep
 };
@@ -50,14 +53,14 @@ async fn fetch_params(jsessionid: &str, client: &Client) -> Result<Res> {
 }
 
 async fn report(
-  content: &EsrepReport,
-  is_yes: bool,
+  content: &EsrepConfig,
+  args: EsrepArg,
   jsessionid: &str,
 ) -> Result<()> {
   let client = Client::new();
   let res = fetch_params(jsessionid, &client).await?;
 
-  if res.already && !is_yes {
+  if res.already && !args.yes {
     loop {
       print!("Already reported today. Are you sure to report again? (Y/n) ");
       std::io::stdout().flush()?;
@@ -114,26 +117,25 @@ async fn report(
 pub async fn esrep(
   config: &mut Config,
   storage: &Storage,
-  is_yes: bool
+  args: EsrepArg,
 ) -> Result<()> {
   if storage.login.cookie_tgc.is_none() {
     bail!("Please sign in first!");
   }
+  if args.school && (args.code.is_some() || args.address.is_some() || args.college.is_some() || args.phone.is_some()) {
+    bail!("--code, --address, --college and --phone are exclusive with --school!");
+  }
   if config.esrep.is_none() {
-    config.esrep = Some(EsrepConfig {
-      report: Some(EsrepReport::new(storage))
+    config.esrep = Some(if args.school {
+      School(ReportAtSchool::new(storage))
+    } else {
+      Other(ReportOther::new(storage, args.code, args.address, args.college, args.phone))
     });
     config.save(CONFIG_FILE).await?;
     bail!("Please set the report content in config file first!");
   }
-  let esrep = config.esrep.as_mut().unwrap();
-  if esrep.report.is_none() {
-    esrep.report = Some(EsrepReport::new(storage));
-    config.save(CONFIG_FILE).await?;
-    bail!("Please set the report content in config file first!");
-  }
-  let content = esrep.report.as_ref().unwrap();
-  let jsessionid = esrep::auth(&storage).await?;
-  report(&content, is_yes, &jsessionid).await?;
+  let esrep = config.esrep.as_ref().unwrap();
+  let jsessionid = esrep::auth(storage).await?;
+  report(&esrep, args, &jsessionid).await?;
   Ok(())
 }

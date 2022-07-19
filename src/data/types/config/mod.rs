@@ -21,7 +21,9 @@ impl Config {
     Ok(config)
   }
   pub async fn save(&self, path: &str) -> Result<()> {
+    println!("Here");
     let config_str = toml::to_string_pretty(&self)?;
+    println!("Here");
     let file = get_save_path(path);
     tokio::fs::write(file, config_str).await?;
     Ok(())

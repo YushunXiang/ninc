@@ -19,10 +19,11 @@ After sign in, the token will be saved to the file `storage.json`.
 ### Epidemic situation report
 
 ```bash
-ninc esrep [-y]
+ninc esrep [-y] [-s (if in school)]
+ninc esrap [-y] [-C [address code]] [-a [address]] [-c [college name]] [-p [phone number]]
 ```
 
-The content to be reported will be read from the config file. If option `esrep.report` does not exist in the config file, a default value will be generated. Please make sure that all information is accurate by comparing with the [document](./docs/report_form.md).
+The content to be reported will be read from the config file. If option `esrep` does not exist in the config file, a default value will be generated. Please make sure that all information is accurate by comparing with the [document](./docs/report_form.md).
 
 If it has been reported today, you will be asked whether to repeat it. After specifying the option `-y`, the query will be skipped and the filling will be repeated directly.
 

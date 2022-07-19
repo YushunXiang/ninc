@@ -3,7 +3,7 @@ use crate::data::Storage;
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize)]
-pub struct EsrepReport {
+pub struct ReportAtSchool {
   #[doc = "近 48 小时内是否进行过核酸检测。"]
   #[doc = "0: 否，1: 是。"]
   #[doc = "目前无需填写，缺省为 1。"]
@@ -55,12 +55,7 @@ pub struct EsrepReport {
   userName: Option<String>,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct EsrepConfig {
-  pub report: Option<EsrepReport>
-}
-
-impl EsrepReport {
+impl ReportAtSchool {
   pub fn new(storage: &Storage) -> Self {
     let uid = if let Some(uid) = storage.basic.uid.as_ref() {
       uid.clone()
@@ -74,7 +69,7 @@ impl EsrepReport {
       String::from("田所")
     };
 
-    EsrepReport {
+    Self {
       hsjc: Some(1),
       xasymt: Some(1),
       actionType: Some(String::from("addRbxx")),

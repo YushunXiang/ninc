@@ -1,12 +1,12 @@
 mod login;
-mod esrep;
-mod ecard;
+pub mod esrep;
+pub mod ecard;
+// pub mod edu;
 
 use clap::{Parser, Subcommand};
-pub use ecard::EcardArg;
 
 #[derive(Parser)]
-#[clap(name = "ninc", author = "yurzhang")]
+#[clap(name = "ninc", author = "yurzhang", version)]
 #[clap(about = "A command line interface for NWPU ecampus", long_about = None)]
 pub struct Cli {
   #[clap(subcommand)]
@@ -22,5 +22,8 @@ pub enum Commands {
   Esrep(esrep::EsrepArg),
 
   /// Query consumption records
-  Ecard(EcardArg),
+  Ecard(ecard::EcardArg),
+
+  // /// Academic adminstration related functions
+  // Edu(edu::EduArg),
 }

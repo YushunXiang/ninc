@@ -49,7 +49,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       }
     },
     Commands::Esrep(args) => {
-      if let Err(err) = esrep(&mut config, &storage, args.yes).await {
+      if let Err(err) = esrep(&mut config, &storage, args).await {
         eprintln!("Report failed!\n{}", err);
       } else {
         println!("Report successfully!");
@@ -59,7 +59,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       if let Err(err) = ecard(&config, &storage, args).await {
         eprintln!("Query failed!\n{}", err);
       }
-    }
+    },
+    // Commands::Edu(args) => {
+    //   if let Err(err) = edu(&config, &storage, args).await {
+    //     eprintln!("Query failed!\n{}", err);
+    //   }
+    // },
   }
 
   Ok(())

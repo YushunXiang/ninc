@@ -7,7 +7,7 @@ use anyhow::{bail, Result};
 use serde::Deserialize;
 use chrono::{Local, Duration, NaiveDate};
 use reqwest::Client;
-use crate::data::{Config, Storage, args::EcardArg};
+use crate::data::{Config, Storage, args::ecard::EcardArg};
 use self::{short::ecard_short, long::ecard_long};
 
 #[derive(Deserialize)]

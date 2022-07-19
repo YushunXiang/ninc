@@ -6,7 +6,7 @@ pub mod ecard;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
-#[clap(name = "ninc", author = "yurzhang")]
+#[clap(name = "ninc", author = "yurzhang", version)]
 #[clap(about = "A command line interface for NWPU ecampus", long_about = None)]
 pub struct Cli {
   #[clap(subcommand)]

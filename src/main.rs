@@ -11,7 +11,7 @@ use data::{
   args::{Cli, Commands}
 };
 use tools::{get_user, get_info};
-use commands::{login, esrep, ecard};
+use commands::{login, esrep, ecard, edu};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -60,11 +60,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         eprintln!("Query failed!\n{}", err);
       }
     },
-    // Commands::Edu(args) => {
-    //   if let Err(err) = edu(&config, &storage, args).await {
-    //     eprintln!("Query failed!\n{}", err);
-    //   }
-    // },
+    Commands::Edu(args) => {
+      if let Err(err) = edu(&config, &storage, args).await {
+        eprintln!("Query failed!\n{}", err);
+      }
+    },
   }
 
   Ok(())

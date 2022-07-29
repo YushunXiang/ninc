@@ -25,5 +25,6 @@ pub enum Commands {
   Ecard(ecard::EcardArg),
 
   /// Academic adminstration related functions
-  Edu(edu::EduArg),
+  #[clap(subcommand)]
+  Edu(edu::EduCommands),
 }

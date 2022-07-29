@@ -1,18 +1,15 @@
-use anyhow::{bail, Result};
+pub mod eval;
+
+use anyhow::Result;
 use reqwest::Client;
 use crate::{
-  data::{
-    Config,
-    Storage,
-    args::edu::EduArg
-  },
+  data::{Config, Storage},
   tools::auth::edu::auth
 };
 
 pub async fn edu(
   _config: &Config,
   storage: &Storage,
-  args: EduArg,
 ) -> Result<()> {
   let token = auth(storage).await?;
 

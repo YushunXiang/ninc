@@ -18,5 +18,6 @@ pub const ECARD_URL: &str = "https://portal-service.nwpu.edu.cn/v2/personalData/
 pub const ECARD_DETAIL_URL: &str = "https://portal-service.nwpu.edu.cn/portalCenter/api/rest/center/personalData/getMyCost";
 
 pub const EDU_LOGIN_URL: &str = "https://jwxt.nwpu.edu.cn/student/sso-login";
+pub const EDU_EVAL_SEME: &str = "https://jwxt.nwpu.edu.cn/evaluation-student-backend/api/v1/evaluation/get-enable-semesters";
 
 pub const _PUBKEY_URL: &str = "https://uis.nwpu.edu.cn/cas/jwt/publicKey";

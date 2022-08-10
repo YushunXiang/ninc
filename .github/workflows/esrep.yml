@@ -29,7 +29,7 @@ jobs:
         run: ./target/release/ninc login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
 
       - name: Pre-report
-        run: ./target/release/ninc esrep -C 421126 -a 湖北省黄冈市蕲春县 -c 信息类 -p 13972753103
+        run: ./target/release/ninc esrep -C 421126 -a 浙江省杭州市淳安县 -c 信息类
 
       - name: Report
         run: ./target/release/ninc esrep -y

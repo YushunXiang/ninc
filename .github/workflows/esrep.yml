@@ -29,7 +29,7 @@ jobs:
         run: ./target/release/ninc login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
 
       - name: Pre-report
-        run: ./target/release/ninc esrep -a 浙江省杭州市淳安县 -c 信息类
+        run: ./target/release/ninc esrep -a 浙江省台州市天台县 -c 软件学院 -p 13511463319
 
       - name: Report
         run: ./target/release/ninc esrep -y
